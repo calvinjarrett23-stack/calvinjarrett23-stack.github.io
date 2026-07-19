@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calvin Jarrett — Finance &amp; Economics</title>
+  <meta name="description" content="Portfolio of Calvin Jarrett: corporate finance analysis, IBM Consulting work, and independent product work.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <noscript>
+    <style>
+      /* No JS: show the finished capital structure, skip the animation */
+      .hero .caption { display: none; }
+      .hero .hero-takeaway, .hero .stat { opacity: 1; transform: none; }
+      .seg-debt { height: 20%; }
+      .seg-debt .seg-label { opacity: 1; }
+      .hero-pin { min-height: auto; padding: 4.5rem 0; }
+      .scroll-cue { display: none; }
+    </style>
+  </noscript>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="nav-name" href="./">Calvin Jarrett</a>
+      <nav aria-label="Main">
+        <ul class="nav-links">
+          <li><a href="./" aria-current="page">Home</a></li>
+          <li><a href="academics/">Academics</a></li>
+          <li><a href="ibm/">IBM Consulting</a></li>
+          <li><a href="independent/">Independent Work</a></li>
+          <li><a href="contact/">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= Scroll-scrubbed hero ================= -->
+    <section class="hero" id="hero" aria-label="Leveraged recapitalization, built as you scroll">
+      <div class="hero-pin">
+        <div class="hero-grid container">
+          <div class="hero-copy">
+            <p class="kicker">Case study — leveraged recapitalization</p>
+            <h1>What happens if Costco levers up?</h1>
+            <div class="hero-captions">
+              <p class="caption" data-stage="1">Costco today: financed almost entirely with equity. A+ rated, roughly $15B of cash on hand.</p>
+              <p class="caption" data-stage="2">Issue $5.0B of investment-grade notes at 5.5% and deploy it into a buyback&hellip;</p>
+              <p class="caption" data-stage="3">&hellip;the tax shield adds $1.25B of value, and at an illustrative 80/20 mix WACC falls from 7.79% toward 6.7%&hellip;</p>
+              <p class="caption" data-stage="4">&hellip;but at $5B the trade is EPS-dilutive: &minus;1.43%, even with 5.0M shares retired.</p>
+            </div>
+            <p class="hero-takeaway"><!-- set from HERO_CONFIG.takeaway --></p>
+            <a class="hero-link" href="academics/costco/">Read the full analysis &rarr;</a>
+          </div>
+
+          <div class="hero-viz">
+            <div class="bar-wrap">
+              <div class="bar-stack" role="img" aria-label="Illustrative stacked capital-structure bar, not to scale: equity base with a $5 billion new debt tranche added on top.">
+                <div class="seg seg-debt"><span class="seg-label">New debt</span></div>
+                <div class="seg seg-equity"><span class="seg-label">Equity</span></div>
+              </div>
+              <p class="bar-base">Pro forma capital structure &mdash; illustrative</p>
+            </div>
+            <div class="stat-col">
+              <div class="stat" data-stage="2">
+                <p class="stat-label">New debt</p>
+                <p class="stat-value" id="v-debt">$5.0B</p>
+              </div>
+              <div class="stat" data-stage="3">
+                <p class="stat-label">WACC &mdash; 80/20 illustrative</p>
+                <p class="stat-value" id="v-wacc">7.79% &rarr; &approx;6.7%</p>
+              </div>
+              <div class="stat" data-stage="4">
+                <p class="stat-label">EPS impact</p>
+                <p class="stat-value" id="v-eps">&minus;1.43%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="scroll-cue">Scroll</p>
+      </div>
+    </section>
+
+    <!-- ================= Entry tiles ================= -->
+    <section class="tiles-section">
+      <div class="container tiles">
+        <a class="tile" href="independent/">
+          <p class="tile-kicker">Independent Work</p>
+          <h2>weduediligence.com</h2>
+          <p class="tile-proof">Live product, paying client</p>
+        </a>
+        <a class="tile" href="ibm/">
+          <p class="tile-kicker">IBM Consulting</p>
+          <h2>NEXUS &amp; Predictive Cash Flow</h2>
+          <p class="tile-proof">IBM Consulting Intern</p>
+        </a>
+        <a class="tile" href="academics/">
+          <p class="tile-kicker">Academics</p>
+          <h2>Corporate Finance Analysis</h2>
+          <p class="tile-proof">4.0 GPA, BS/MS Finance &amp; Economics</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span>&copy; 2026 Calvin Jarrett</span>
+      <a href="mailto:calvinjarrett23@gmail.com">calvinjarrett23@gmail.com</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="assets/js/hero.js"></script>
+</body>
+</html>
