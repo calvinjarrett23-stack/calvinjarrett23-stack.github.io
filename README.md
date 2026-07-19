@@ -10,7 +10,7 @@ academics/                       Section landing
   costco/                        Costco leveraged recapitalization case study
 ibm/                             Section landing
   nexus/                         NEXUS case study
-  predictive-cash-flow/          the client / Oracle EPM case study
+  predictive-cash-flow/          Client / Oracle EPM case study (client unnamed publicly)
 independent/                     weduediligence.com case study
 contact/                         Email / LinkedIn / resume
 assets/css/site.css              Shared design system
