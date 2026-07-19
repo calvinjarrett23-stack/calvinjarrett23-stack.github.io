@@ -51,6 +51,15 @@
         <h2>What was built</h2>
         <p>weduediligence.com is a paywalled, Zillow-like listing platform for foreclosure properties, currently covering Dallas, Denton, and Collin counties in Texas. Every listing layers three sources of truth: automated data pulls from public records, manual entry and human review, and an AI-generated assessment — title status, liens, repair estimates, and a risk score — so a buyer understands a property's true position before ever stepping into the auction room. The platform has analyzed 200+ properties, adds new listings weekly, and sells access from $149/month.</p>
 
+        <h2>Tools &amp; techniques</h2>
+        <p>The AI work here shares a toolkit with <a href="../ibm/nexus/">NEXUS</a>, the RAG platform I built at IBM. Across the two builds:</p>
+        <ul>
+          <li>AI-generated assessments over mixed sources — automated public-records pulls plus hand-reviewed data feed each property's title, lien, repair, and risk read (weduediligence).</li>
+          <li>Retrieval-augmented generation, with vector embeddings and similarity search on PostgreSQL/pgvector (NEXUS).</li>
+          <li>Confidence scoring on AI outputs, so users know how much to trust a routing or an assessment (NEXUS).</li>
+          <li>Full-stack delivery — React and Node front-to-back, IBM ICA integration, knowledge-graph visualization, and an automated PowerPoint pipeline (NEXUS); a paywalled listing platform run in production (weduediligence).</li>
+        </ul>
+
         <h2>My specific role</h2>
         <p>Sole developer and operator. I built the product end to end and own everything around it — the research process behind each listing, the pricing, and the client relationship.</p>
 
