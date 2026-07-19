@@ -503,6 +503,8 @@ a:hover { color: var(--text-1); }
   gap: var(--s-12);
   align-items: start;
 }
+/* No photo present → single column (photo column returns when it's uncommented) */
+.profile-grid:not(:has(.profile-photo)) { grid-template-columns: 1fr; }
 .profile-name { font-size: 2rem; margin-bottom: var(--s-6); }
 
 .profile-photo img {
