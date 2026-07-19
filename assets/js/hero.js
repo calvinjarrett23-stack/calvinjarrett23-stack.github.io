@@ -1,31 +1,29 @@
 /* ============================================================
    Homepage hero — scroll-scrubbed leveraged recap build
-   GSAP + ScrollTrigger (CDN). Reversible on scroll-up.
-   Falls back to a static end-state for prefers-reduced-motion,
-   and to simple staged fade-ins on small screens.
+   GSAP + ScrollTrigger (CDN). Scrubbed and reversible: the
+   timeline is driven by scroll position, so scrolling up
+   rewinds every stage. Falls back to a static end-state for
+   prefers-reduced-motion / no GSAP, and to staged fade-ins
+   on small screens.
    ============================================================ */
 
 /* ------------------------------------------------------------
-   CONFIG — real figures from the Costco recap deck.
+   CONFIG — real figures from the Costco recap deck
+   ("Costco ($COST): The Case for a Levered Recapitalization").
    ------------------------------------------------------------ */
 const HERO_CONFIG = {
-  usePlaceholders: false,
-
-  newDebtBillions: 5.0,  // $5.0B IG notes at 5.5%
+  newDebtBillions: 5.0,      // $5B IG notes, 5.5% coupon
   waccBeforePct: 7.79,
-  waccAfterPct: 6.7,     // ≈, at an illustrative 80/20 D/E ceiling — not the $5B case
-  epsImpactPct: -1.43,   // EPS-DILUTIVE at $5B (offset by +$1.25B PV tax shield)
+  waccAfterPct: 6.7,         // ≈, at the deck's illustrative 80/20 structure
+  epsBefore: 18.25,          // $ per share
+  epsAfter: 17.99,           // −1.43% — dilutive, not accretive
+  takeaway: "The math supports it. The culture won't.",
 
-  // Visual proportion of the stacked bar the debt tranche fills.
-  // Deliberately NOT to scale — actual pro forma leverage is only
-  // 0.5x Debt/EBITDA, which would render as a sliver. The bar is
-  // labeled "illustrative" on the page.
-  debtShareOfBar: 0.2,
-
-  takeaway: "Value-accretive. Culturally unlikely.",
+  // Bar geometry. Dollar labels are actual ($444B equity, $7B existing
+  // debt, $5B new); the equity segment is axis-break compressed so the
+  // debt tranches are legible — the ⓘ tooltip on the axis explains it.
+  newDebtBarPct: 18,
 };
-
-const FILL_IN = "[FILL IN]";
 
 (function () {
   const hero = document.getElementById("hero");
@@ -34,8 +32,8 @@ const FILL_IN = "[FILL IN]";
   const els = {
     captions: hero.querySelectorAll(".caption"),
     takeaway: hero.querySelector(".hero-takeaway"),
-    debtSeg: hero.querySelector(".seg-debt"),
-    debtLabel: hero.querySelector(".seg-debt .seg-label"),
+    newSeg: hero.querySelector(".seg-new"),
+    callout: document.getElementById("callout"),
     stats: hero.querySelectorAll(".stat"),
     vDebt: document.getElementById("v-debt"),
     vWacc: document.getElementById("v-wacc"),
@@ -48,29 +46,24 @@ const FILL_IN = "[FILL IN]";
   els.takeaway.textContent = HERO_CONFIG.takeaway;
 
   const fmtDebt = (n) => "$" + n.toFixed(1) + "B";
-  const fmtWaccBefore = HERO_CONFIG.waccBeforePct.toFixed(2) + "%";
-  const fmtWaccAfter = (n) => "≈" + n.toFixed(1) + "%"; // ≈ — illustrative ceiling
-  const fmtEps = (n) =>
-    (n > 0 ? "+" : n < 0 ? "−" : "") + Math.abs(n).toFixed(2) + "%";
-  const debtPct = HERO_CONFIG.debtShareOfBar * 100;
+  const waccBefore = HERO_CONFIG.waccBeforePct.toFixed(2) + "%";
+  const fmtWacc = (n) => waccBefore + " → ≈" + n.toFixed(1) + "%";
+  const epsBefore = "$" + HERO_CONFIG.epsBefore.toFixed(2);
+  const fmtEps = (n) => epsBefore + " → $" + n.toFixed(2);
+  const barPct = HERO_CONFIG.newDebtBarPct + "%";
 
+  // The static HTML already carries the final values (for no-JS);
+  // this just re-asserts them for the fallback modes.
   function setFinalNumbers() {
-    if (HERO_CONFIG.usePlaceholders) {
-      els.vDebt.textContent = FILL_IN;
-      els.vWacc.textContent = FILL_IN + " → " + FILL_IN;
-      els.vEps.textContent = FILL_IN;
-    } else {
-      els.vDebt.textContent = fmtDebt(HERO_CONFIG.newDebtBillions);
-      els.vWacc.textContent =
-        fmtWaccBefore + " → " + fmtWaccAfter(HERO_CONFIG.waccAfterPct);
-      els.vEps.textContent = fmtEps(HERO_CONFIG.epsImpactPct);
-    }
+    els.vDebt.textContent = fmtDebt(HERO_CONFIG.newDebtBillions);
+    els.vWacc.textContent = fmtWacc(HERO_CONFIG.waccAfterPct);
+    els.vEps.textContent = fmtEps(HERO_CONFIG.epsAfter);
   }
 
   /* ---------- Fallback 1: static end-state ---------- */
   function staticMode() {
     hero.classList.add("hero-static");
-    els.debtSeg.style.height = debtPct + "%";
+    els.newSeg.style.height = barPct;
     setFinalNumbers();
   }
 
@@ -84,7 +77,7 @@ const FILL_IN = "[FILL IN]";
           if (!e.isIntersecting) return;
           e.target.classList.add("in");
           if (e.target === els.viz) {
-            els.debtSeg.style.height = debtPct + "%"; // CSS-transitioned
+            els.newSeg.style.height = barPct; // CSS-transitioned growth
           }
           io.unobserve(e.target);
         });
@@ -99,23 +92,23 @@ const FILL_IN = "[FILL IN]";
   function scrubMode() {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Proxy object the timeline tweens; onUpdate writes formatted text.
-    const counters = { debt: 0, wacc: HERO_CONFIG.waccBeforePct, eps: 0 };
-    const ph = HERO_CONFIG.usePlaceholders;
-    if (ph) setFinalNumbers(); // counters show [FILL IN]; tiles still animate in
-    else {
-      els.vDebt.textContent = fmtDebt(0);
-      els.vWacc.textContent = fmtWaccBefore;
-      els.vEps.textContent = fmtEps(0);
-    }
+    // Start the counters at their pre-recap values.
+    const counters = {
+      debt: 0,
+      wacc: HERO_CONFIG.waccBeforePct,
+      eps: HERO_CONFIG.epsBefore,
+    };
+    els.vDebt.textContent = fmtDebt(0);
+    els.vWacc.textContent = waccBefore;
+    els.vEps.textContent = epsBefore;
 
     const tl = gsap.timeline({
       defaults: { ease: "none" },
       scrollTrigger: {
         trigger: hero,
         start: "top top",
-        end: "+=150%",
-        scrub: true,
+        end: "+=150%",   // hero pins for ~150vh of scroll
+        scrub: true,      // tied to scroll position → reversible
         pin: true,
       },
     });
@@ -124,29 +117,13 @@ const FILL_IN = "[FILL IN]";
     const stat = (i) => els.stats[i];
 
     tl
-      // Stage 1 -> 2: swap caption, grow debt tranche, tick counter
+      // Stage 1 → 2: swap caption; debt tranche grows from the baseline
+      // while the $ counter ticks $0 → $5.0B.
       .to(caption(0), { opacity: 0, duration: 0.08 }, 0.1)
       .to(caption(1), { opacity: 1, duration: 0.08 }, 0.18)
-      .to(els.debtSeg, { height: debtPct + "%", duration: 0.3 }, 0.18)
+      .to(els.newSeg, { height: barPct, duration: 0.3 }, 0.18)
       .to(stat(0), { opacity: 1, y: 0, duration: 0.1 }, 0.2)
-      .to(els.debtLabel, { opacity: 1, duration: 0.08 }, 0.4)
-
-      // Stage 3: WACC re-weights
-      .to(caption(1), { opacity: 0, duration: 0.08 }, 0.48)
-      .to(caption(2), { opacity: 1, duration: 0.08 }, 0.56)
-      .to(stat(1), { opacity: 1, y: 0, duration: 0.1 }, 0.56)
-
-      // Stage 4: EPS impact counts (down — the $5B case is dilutive)
-      .to(caption(2), { opacity: 0, duration: 0.08 }, 0.7)
-      .to(caption(3), { opacity: 1, duration: 0.08 }, 0.78)
-      .to(stat(2), { opacity: 1, y: 0, duration: 0.1 }, 0.78)
-
-      // Stage 5: resting state + takeaway
-      .to(els.takeaway, { opacity: 1, duration: 0.12 }, 0.9)
-      .to(els.cue, { opacity: 0, duration: 0.1 }, 0.15);
-
-    if (!ph) {
-      tl.to(
+      .to(
         counters,
         {
           debt: HERO_CONFIG.newDebtBillions,
@@ -155,27 +132,40 @@ const FILL_IN = "[FILL IN]";
         },
         0.18
       )
-        .to(
-          counters,
-          {
-            wacc: HERO_CONFIG.waccAfterPct,
-            duration: 0.14,
-            onUpdate: () =>
-              (els.vWacc.textContent =
-                fmtWaccBefore + " → " + fmtWaccAfter(counters.wacc)),
-          },
-          0.56
-        )
-        .to(
-          counters,
-          {
-            eps: HERO_CONFIG.epsImpactPct,
-            duration: 0.14,
-            onUpdate: () => (els.vEps.textContent = fmtEps(counters.eps)),
-          },
-          0.78
-        );
-    }
+      // Annotation callout appears once the tranche is fully grown.
+      .to(els.callout, { opacity: 1, duration: 0.08 }, 0.46)
+
+      // Stage 3: WACC ticks down 7.79% → ≈6.7%.
+      .to(caption(1), { opacity: 0, duration: 0.08 }, 0.5)
+      .to(caption(2), { opacity: 1, duration: 0.08 }, 0.58)
+      .to(stat(1), { opacity: 1, y: 0, duration: 0.1 }, 0.58)
+      .to(
+        counters,
+        {
+          wacc: HERO_CONFIG.waccAfterPct,
+          duration: 0.12,
+          onUpdate: () => (els.vWacc.textContent = fmtWacc(counters.wacc)),
+        },
+        0.58
+      )
+
+      // Stage 4: EPS ticks DOWN $18.25 → $17.99 — dilution, labeled as such.
+      .to(caption(2), { opacity: 0, duration: 0.08 }, 0.7)
+      .to(caption(3), { opacity: 1, duration: 0.08 }, 0.78)
+      .to(stat(2), { opacity: 1, y: 0, duration: 0.1 }, 0.78)
+      .to(
+        counters,
+        {
+          eps: HERO_CONFIG.epsAfter,
+          duration: 0.12,
+          onUpdate: () => (els.vEps.textContent = fmtEps(counters.eps)),
+        },
+        0.78
+      )
+
+      // Stage 5: pinned resting state + takeaway.
+      .to(els.takeaway, { opacity: 1, duration: 0.1 }, 0.92)
+      .to(els.cue, { opacity: 0, duration: 0.1 }, 0.15);
   }
 
   /* ---------- Mode selection ---------- */

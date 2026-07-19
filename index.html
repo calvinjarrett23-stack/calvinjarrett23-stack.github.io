@@ -12,10 +12,9 @@
   <noscript>
     <style>
       /* No JS: show the finished capital structure, skip the animation */
-      .hero .caption { display: none; }
-      .hero .hero-takeaway, .hero .stat { opacity: 1; transform: none; }
-      .seg-debt { height: 20%; }
-      .seg-debt .seg-label { opacity: 1; }
+      .hero .hero-captions { display: none; }
+      .hero .hero-takeaway, .hero .stat, .hero .callout { opacity: 1; transform: none; }
+      .seg-new { height: 18%; }
       .hero-pin { min-height: auto; padding: 4.5rem 0; }
       .scroll-cue { display: none; }
     </style>
@@ -47,35 +46,48 @@
             <p class="kicker">Case study — leveraged recapitalization</p>
             <h1>What happens if Costco levers up?</h1>
             <div class="hero-captions">
-              <p class="caption" data-stage="1">Costco today: financed almost entirely with equity. A+ rated, roughly $15B of cash on hand.</p>
-              <p class="caption" data-stage="2">Issue $5.0B of investment-grade notes at 5.5% and deploy it into a buyback&hellip;</p>
-              <p class="caption" data-stage="3">&hellip;the tax shield adds $1.25B of value, and at an illustrative 80/20 mix WACC falls from 7.79% toward 6.7%&hellip;</p>
-              <p class="caption" data-stage="4">&hellip;but at $5B the trade is EPS-dilutive: &minus;1.43%, even with 5.0M shares retired.</p>
+              <p class="caption" data-stage="1">Near-zero leverage, an A+ rating, and $15B in cash earning less than it costs. Here's what a $5B recap actually does to value &mdash; and why Costco still won't do it.</p>
+              <p class="caption" data-stage="2">Issue $5.0B of investment-grade notes at a 5.5% coupon and put every dollar into a buyback&hellip;</p>
+              <p class="caption" data-stage="3">&hellip;cheaper after-tax debt re-weights the cost of capital&hellip;</p>
+              <p class="caption" data-stage="4">&hellip;but after-tax interest outruns the 5.0M shares retired: EPS falls, while the tax shield still adds +$1.25B of firm value.</p>
             </div>
             <p class="hero-takeaway"><!-- set from HERO_CONFIG.takeaway --></p>
-            <a class="hero-link" href="academics/costco/">Read the full analysis &rarr;</a>
+            <a class="hero-link" href="academics/costco/">Read why the math and the culture disagree &rarr;</a>
           </div>
 
           <div class="hero-viz">
             <div class="bar-wrap">
-              <div class="bar-stack" role="img" aria-label="Illustrative stacked capital-structure bar, not to scale: equity base with a $5 billion new debt tranche added on top.">
-                <div class="seg seg-debt"><span class="seg-label">New debt</span></div>
-                <div class="seg seg-equity"><span class="seg-label">Equity</span></div>
+              <div class="bar-area">
+                <div class="bar-stack" role="img" aria-label="Stacked capital-structure bar: $444 billion of equity (axis-compressed), $7 billion of existing debt, and a $5 billion new debt tranche added by the recap.">
+                  <div class="seg seg-equity">
+                    <span class="axis-break" aria-hidden="true"></span>
+                    <span class="seg-label">Equity &middot; $444B</span>
+                  </div>
+                  <div class="seg seg-new"></div>
+                  <div class="seg seg-existing"><span class="seg-label">Debt &middot; $7B</span></div>
+                </div>
+                <p class="callout" id="callout">$5.0B new debt<br>5.5% coupon</p>
               </div>
-              <p class="bar-base">Pro forma capital structure &mdash; illustrative</p>
+              <div class="bar-axis">
+                <span class="axis-zero">$0</span>
+                <span class="axis-title">Pro forma capital structure <span class="info-dot" tabindex="0" title="Equity segment compressed (axis break) for legibility; dollar figures are actual. At true scale, $5B of new debt is ~1.1% of Costco's $444B market cap.">i</span></span>
+              </div>
             </div>
             <div class="stat-col">
               <div class="stat" data-stage="2">
                 <p class="stat-label">New debt</p>
                 <p class="stat-value" id="v-debt">$5.0B</p>
+                <p class="stat-sub">1.1% of a $444B market cap</p>
               </div>
               <div class="stat" data-stage="3">
-                <p class="stat-label">WACC &mdash; 80/20 illustrative</p>
+                <p class="stat-label">WACC <span class="info-dot" tabindex="0" title="Post-recap WACC measured at the deck's illustrative 80/20 debt/equity structure &mdash; the ceiling case, not the $5B round alone.">i</span></p>
                 <p class="stat-value" id="v-wacc">7.79% &rarr; &approx;6.7%</p>
+                <p class="stat-sub">re-weighted toward cheaper after-tax debt</p>
               </div>
               <div class="stat" data-stage="4">
-                <p class="stat-label">EPS impact</p>
-                <p class="stat-value" id="v-eps">&minus;1.43%</p>
+                <p class="stat-label">EPS &mdash; dilution</p>
+                <p class="stat-value" id="v-eps">$18.25 &rarr; $17.99</p>
+                <p class="stat-sub">&minus;1.43% &middot; offset by +$1.25B tax shield PV</p>
               </div>
             </div>
           </div>

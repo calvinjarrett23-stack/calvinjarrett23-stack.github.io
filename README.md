@@ -15,6 +15,8 @@ independent/                     weduediligence.com case study
 contact/                         Email / LinkedIn / resume
 assets/css/site.css              Shared design system
 assets/js/hero.js                Hero animation (GSAP + ScrollTrigger via CDN)
+assets/docs/                     Costco deck (embedded PDF + downloadable PPTX)
+assets/img/                      Screenshots (weduediligence embed; NEXUS gallery)
 ```
 
 All links are relative, so the site works both as a user site
@@ -29,6 +31,12 @@ All links are relative, so the site works both as a user site
 
 ## Notes
 
+- **NEXUS screenshots**: a ready-made gallery is commented out in
+  `ibm/nexus/index.html` — drop images into `assets/img/` and uncomment,
+  one `<figure>` per screenshot.
+- **Costco deck**: the page embeds `assets/docs/costco-levered-recap.pdf`
+  (exported from the PPTX); both files are offered as downloads. If the deck
+  changes, re-export the PDF and replace both.
 - All case-study content, hero numbers, and the resume PDF are in. The hero's
   `debtShareOfBar` (in `assets/js/hero.js`) is deliberately not to scale —
   actual pro forma leverage is 0.5x Debt/EBITDA, which would render as a

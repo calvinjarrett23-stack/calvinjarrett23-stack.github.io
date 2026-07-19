@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NEXUS — Calvin Jarrett</title>
-  <meta name="description" content="Case study: NEXUS, an AI knowledge routing platform built during my IBM Consulting internship.">
+  <meta name="description" content="Case study: NEXUS, a full-stack RAG platform for expert routing built during my IBM Consulting internship — confidence-scored routing, knowledge graph, PPT generation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
@@ -29,23 +29,45 @@
 
   <main class="page">
     <article class="container">
-      <p class="kicker">IBM Consulting — Case study</p>
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../../">Home</a><span class="sep">/</span><a href="../">IBM Consulting</a><span class="sep">/</span><span aria-current="page">NEXUS</span>
+      </nav>
+      <p class="kicker">Case study</p>
       <h1>NEXUS</h1>
       <p class="dek">Find the right internal expert in seconds, instead of guessing who to ask.</p>
 
       <div class="prose">
         <h2>Problem</h2>
-        <p>IBM employees — interns especially — had no reliable way to find the right internal expert for a given question. The knowledge existed somewhere in the organization; figuring out who held it was guesswork.</p>
+        <p>Large consulting organizations run on institutional knowledge — but knowledge is only useful if you can find the person who holds it. In practice, IBM employees, and interns especially, had no reliable way to identify the right internal expert for a given question. The expertise existed somewhere in a workforce of hundreds of thousands; locating it meant asking around, guessing from org charts, and losing hours or days to a search problem that software should be solving.</p>
 
         <h2>What was built</h2>
-        <p>NEXUS is an AI knowledge routing platform: a full-stack RAG application built on React, Node, and PostgreSQL with pgvector, integrated with IBM ICA. It routes questions to internal experts with confidence scoring, surfaces the organization's expertise as an interactive knowledge-graph visualization, and includes a PowerPoint generation pipeline.</p>
+        <p>NEXUS treats that search problem as a routing problem. It is a full-stack retrieval-augmented generation (RAG) platform — a React front end over a Node backend and PostgreSQL with the pgvector extension for embedding search, integrated with IBM ICA. Ask it a question and it does more than return documents: it routes you to the internal experts most likely to answer, each with a confidence score, and renders the organization's expertise as an interactive knowledge-graph visualization you can explore. A PowerPoint generation pipeline turns findings into client-ready output directly from the platform.</p>
+
+        <!-- Screenshots: drop image files into assets/img/ and uncomment this
+             gallery — one <figure> per screenshot, with a short caption.
+        <section class="shots" aria-label="NEXUS screenshots">
+          <figure>
+            <img src="../../assets/img/nexus-routing.png" alt="NEXUS expert routing results with confidence scores">
+            <figcaption>Confidence-scored expert routing</figcaption>
+          </figure>
+          <figure>
+            <img src="../../assets/img/nexus-graph.png" alt="NEXUS knowledge graph visualization">
+            <figcaption>Interactive knowledge graph</figcaption>
+          </figure>
+        </section>
+        -->
 
         <h2>My specific role</h2>
-        <p>I led the team and did all of the development myself.</p>
+        <p>I led the team and did all of the development myself — the RAG pipeline, the expert-routing and confidence-scoring logic, the knowledge-graph visualization, and the PowerPoint generation pipeline.</p>
 
         <h2>Outcome</h2>
-        <p>Presented at IBM's intern competition; no formal placement or result yet.</p>
+        <p>NEXUS was presented at IBM's intern competition; no formal placement or result has been announced yet.</p>
       </div>
+
+      <nav class="next-case">
+        <span class="label">Next case study</span>
+        <a href="../predictive-cash-flow/">Predictive Cash Flow — Oracle EPM for the client &rarr;</a>
+      </nav>
     </article>
   </main>
 
